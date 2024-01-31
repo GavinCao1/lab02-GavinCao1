@@ -135,21 +135,18 @@ bool IntBST::contains(int value) const {
 
 
 IntBST::Node* IntBST::getPredecessorNode(int value) const{
-    Node* node = getPredecessorNode(value);
-    return node;
-}
-
-int IntBST::getPredecessor(int value) const{
     Node* current = getNodeFor(value, root);
-    if (!current) return 0;
+    if (!current) {
 
+        return nullptr;
+    }
 
     if (current->left) {
         current = current->left;
         while (current->right) {
             current = current->right;
         }
-        return current->info;
+        return current;
     }
 
     Node* predecessor = nullptr;
@@ -162,7 +159,17 @@ int IntBST::getPredecessor(int value) const{
             ancestor = ancestor->left;
         }
     }
-    return predecessor->info; // REPLACE THIS NON-SOLUTION
+    return predecessor;
+}
+
+int IntBST::getPredecessor(int value) const{
+    Node* node = getPredecessorNode(value);
+    if (node) {
+        return node->info;
+    } else {
+        // Return 0 or -1 to indicate no predecessor
+        return 0; 
+    }
 }
 
 IntBST::Node* IntBST::getSuccessorNode(int value) const{
@@ -203,46 +210,5 @@ int IntBST::getSuccessor(int value) const{
 }
 
 bool IntBST::remove(int value){
-    Node* toDelete = getNodeFor(value, root);
-    if (toDelete == nullptr) {
-        // Value not found in the tree.
-        return false;
-    }
-
-    if (toDelete->left == nullptr && toDelete->right == nullptr) {
-        if (toDelete != root) {
-            if (toDelete->parent->left == toDelete) {
-                toDelete->parent->left = nullptr;
-            } else {
-                toDelete->parent->right = nullptr;
-            }
-        } else {
-            root = nullptr;
-        }
-        delete toDelete;
-    }
-
-    else if (toDelete->left == nullptr || toDelete->right == nullptr) {
-        Node* child = (toDelete->left) ? toDelete->left : toDelete->right;
-        if (toDelete != root) {
-            if (toDelete == toDelete->parent->left) {
-                toDelete->parent->left = child;
-            } else {
-                toDelete->parent->right = child;
-            }
-            child->parent = toDelete->parent;
-        } else {
-            root = child;
-            root->parent = nullptr;
-        }
-        delete toDelete;
-    }
-
-    else {
-        Node* successor = getSuccessorNode(toDelete->info);
-        int val = successor->info;
-        remove(successor->info);
-        toDelete->info = val;
-    }
-    return true;
+  
 } // REPLACE THIS NON-SOLUTION
