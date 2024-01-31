@@ -246,4 +246,3 @@ bool IntBST::remove(int value){
     }
     return true;
 } // REPLACE THIS NON-SOLUTION
-}
