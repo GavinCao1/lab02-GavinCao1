@@ -1,6 +1,6 @@
 // intbst.cpp
 // Implements class IntBST
-// YOUR NAME(S), DATE
+// Gavin Cao, 1/29/24
 
 #include "intbst.h"
 
@@ -9,7 +9,7 @@ using std::cout;
 
 // constructor sets up empty tree
 IntBST::IntBST() { 
-
+    
 }
 
 // destructor deletes all nodes
