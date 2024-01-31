@@ -210,5 +210,5 @@ int IntBST::getSuccessor(int value) const{
 }
 
 bool IntBST::remove(int value){
-  
+  return false;
 } // REPLACE THIS NON-SOLUTION
