@@ -179,12 +179,11 @@ IntBST::Node* IntBST::getSuccessorNode(int value) const{
         return temp;
     }
 
-    // Case 2: No right subtree.
     Node* successor = nullptr;
     Node* ancestor = root;
     while (ancestor != current) {
         if (current->info < ancestor->info) {
-            successor = ancestor; // So far this is the deepest node for which current node is in left.
+            successor = ancestor; 
             ancestor = ancestor->left;
         } else {
             ancestor = ancestor->right;
@@ -193,19 +192,16 @@ IntBST::Node* IntBST::getSuccessorNode(int value) const{
     return successor;
 }
 
-// returns the successor value of the given value or 0 if there is none
 int IntBST::getSuccessor(int value) const{
     Node* successorNode = getSuccessorNode(value);
     if (successorNode) {
         return successorNode->info;
     } else {
-        // Return 0 or another value to indicate no successor
+
         return 0;
     } // REPLACE THIS NON-SOLUTION
 }
 
-// deletes the Node containing the given value from the tree
-// returns true if the node exist and was deleted or false if the node does not exist
 bool IntBST::remove(int value){
     Node* toDelete = getNodeFor(value, root);
     if (toDelete == nullptr) {
@@ -213,7 +209,6 @@ bool IntBST::remove(int value){
         return false;
     }
 
-    // Case 1: Node is a leaf
     if (toDelete->left == nullptr && toDelete->right == nullptr) {
         if (toDelete != root) {
             if (toDelete->parent->left == toDelete) {
@@ -226,7 +221,7 @@ bool IntBST::remove(int value){
         }
         delete toDelete;
     }
-    // Case 2: Node has one child
+
     else if (toDelete->left == nullptr || toDelete->right == nullptr) {
         Node* child = (toDelete->left) ? toDelete->left : toDelete->right;
         if (toDelete != root) {
@@ -242,7 +237,7 @@ bool IntBST::remove(int value){
         }
         delete toDelete;
     }
-    // Case 3: Node has two children
+
     else {
         Node* successor = getSuccessorNode(toDelete->info);
         int val = successor->info;
