@@ -136,7 +136,7 @@ bool IntBST::contains(int value) const {
 
 IntBST::Node* IntBST::getPredecessorNode(int value) const{
     Node* node = getPredecessorNode(value);
-    return node
+    return node;
 }
 
 int IntBST::getPredecessor(int value) const{
@@ -162,7 +162,7 @@ int IntBST::getPredecessor(int value) const{
             ancestor = ancestor->left;
         }
     }
-    return predecessor->data; // REPLACE THIS NON-SOLUTION
+    return predecessor->info; // REPLACE THIS NON-SOLUTION
 }
 
 IntBST::Node* IntBST::getSuccessorNode(int value) const{
