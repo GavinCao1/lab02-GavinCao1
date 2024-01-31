@@ -8,75 +8,116 @@
 using std::cout;
 
 // constructor sets up empty tree
-IntBST::IntBST() { 
+IntBST::IntBST():root(nullptr) { 
     
 }
 
 // destructor deletes all nodes
 IntBST::~IntBST() {
-
+    clear(root);
 }
 
 // recursive helper for destructor
 void IntBST::clear(Node *n) {
-
+        if (n) {
+        clear(n->left);
+        clear(n->right);
+        delete n;
+    }
 }
 
 // insert value in tree; return false if duplicate
 bool IntBST::insert(int value) {
-    return false; // REPLACE THIS NON-SOLUTION
+    if (!root) {
+        root = new Node(value);
+        return true;
+    } else {
+        return insert(value, root);
+    }
 }
 
 // recursive helper for insert (assumes n is never 0)
 bool IntBST::insert(int value, Node *n) {
+    if (value < n->info) {
+        if (!n->left) {
+            n->left = new Node(value);
+            n->left->parent = n;
+            return true;
+        } else {
+            return insert(value, n->left);
+        }
+    } else if (value > n->info) {
+        if (!n->right) {
+            n->right = new Node(value);
+            n->right->parent = n;
+            return true;
+        } else {
+            return insert(value, n->right);
+        }
+    }
+    // Return false if the value is a duplicate
     return false; // REPLACE THIS NON-SOLUTION
 }
 
 // print tree data pre-order
 void IntBST::printPreOrder() const {
-    cout << "IMPLEMENT printPreOrder public method";; // IMPLEMENT HERE
+    printPreOrder(root); // IMPLEMENT HERE
 }
 
 // recursive helper for printPreOrder()
 void IntBST::printPreOrder(Node *n) const {
-    cout << "IMPLEMENT printPreOrder private helper method"; // IMPLEMENT HERE
+    if (n) {
+        cout << n->info << " ";
+        printPreOrder(n->left);
+        printPreOrder(n->right);
+    } // IMPLEMENT HERE
 }
 
 // print tree data in-order, with helper
 void IntBST::printInOrder() const {
-    cout << "IMPLEMENT printInOrder public method"; // IMPLEMENT HERE
+    printInOrder(root);// IMPLEMENT HERE
 }
 void IntBST::printInOrder(Node *n) const {
-    cout << "IMPLEMENT IMPLEMENT printInOrder private helper method"; // IMPLEMENT HERE
+    if (n) {
+        printInOrder(n->left);
+        cout << n->info << " ";
+        printInOrder(n->right);
+    } // IMPLEMENT HERE
 }
 
 // prints tree data post-order, with helper
 void IntBST::printPostOrder() const {
-    cout << "IMPLEMENT printPostOrder public method"; // IMPLEMENT HERE
+    printPostOrder(root);// IMPLEMENT HERE
 }
 
 void IntBST::printPostOrder(Node *n) const {
-    cout << "IMPLEMENT printPostOrder private helper method";// IMPLEMENT HERE
+    if (n) {
+        printPostOrder(n->left);
+        printPostOrder(n->right);
+        cout << n->info << " ";
+    }// IMPLEMENT HERE
 }
 
 // return sum of values in tree
 int IntBST::sum() const {
-    return -1; // REPLACE THIS NON-SOLUTION
+    return sum(root); // REPLACE THIS NON-SOLUTION
 }
 
 // recursive helper for sum
 int IntBST::sum(Node *n) const {
-    return -1; // REPLACE THIS NON-SOLUTION
+    if (!n) return 0;
+    return n->info + sum(n->left) + sum(n->right); // REPLACE THIS NON-SOLUTION
 }
 
 // return count of values
 int IntBST::count() const {
-    return -1; // REPLACE THIS NON-SOLUTION
+    return count(root);// REPLACE THIS NON-SOLUTION
 }
 
 // recursive helper for count
 int IntBST::count(Node *n) const {
-    return -1; // REPLACE THIS NON-SOLUTION
+    if (!n) return 0;
+    return 1 + count(n->left) + count(n->right); // REPLACE THIS NON-SOLUTION
 }
 
 // IMPLEMENT THIS FIRST: returns the node for a given value or NULL if none exists
@@ -86,7 +127,21 @@ int IntBST::count(Node *n) const {
 // Whenever you call this method from somewhere else, pass it
 // the root node as "n"
 IntBST::Node* IntBST::getNodeFor(int value, Node* n) const{
-    return NULL; // REPLACE THIS NON-SOLUTION
+    if (n == nullptr) {
+        // Base case: value not found or tree is empty.
+        return nullptr;
+    } 
+    if (value == n->info) {
+        // Value found.
+        return n;
+    } 
+    if (value < n->info) {
+        // If the value is less than current node's info, search in the left subtree.
+        return getNodeFor(value, n->left);
+    } else {
+        // If the value is greater than current node's info, search in the right subtree.
+        return getNodeFor(value, n->right);
+    }
 }
 
 // returns true if value is in the tree; false if not
