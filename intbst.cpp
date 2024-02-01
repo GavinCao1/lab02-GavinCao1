@@ -210,5 +210,74 @@ int IntBST::getSuccessor(int value) const{
 }
 
 bool IntBST::remove(int value){
-  return false;
+    Node *parent = nullptr;
+    Node *current = root;
+
+    // Find the node to be removed and its parent.
+    while (current != nullptr && current->info != value) {
+        parent = current;
+        if (value < current->info) {
+            current = current->left;
+        } else {
+            current = current->right;
+        }
+    }
+
+    if (current == nullptr) {
+        // Value not found in the tree.
+        return false;
+    }
+
+    // Case 1: Removing a leaf node.
+    if (current->left == nullptr && current->right == nullptr) {
+        if (current != root) {
+            if (parent->left == current) {
+                parent->left = nullptr;
+            } else {
+                parent->right = nullptr;
+            }
+        } else {
+            root = nullptr;
+        }
+        delete current;
+    }
+    // Case 2: Removing a node with one child.
+    else if (current->left == nullptr || current->right == nullptr) {
+        Node *child;
+        if (current->left != nullptr) {
+            child = current->left;
+        } else {
+            child = current->right;
+        }
+
+        if (current != root) {
+            if (current == parent->left) {
+                parent->left = child;
+            } else {
+                parent->right = child;
+            }
+        } else {
+            root = child;
+        }
+        delete current;
+    }
+    // Case 3: Removing a node with two children.
+    else {
+        Node *successor = current->right;
+        Node *successorParent = current;
+        while (successor->left != nullptr) {
+            successorParent = successor;
+            successor = successor->left;
+        }
+
+        if (successorParent != current) {
+            successorParent->left = successor->right;
+        } else {
+            successorParent->right = successor->right;
+        }
+
+        current->info = successor->info;
+        delete successor;
+    }
+    return true;
 } // REPLACE THIS NON-SOLUTION
